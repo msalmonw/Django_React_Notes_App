@@ -21,7 +21,7 @@ const NotePage = ({ match, history }) => {
     }
 
     let createNote = async () => {
-        fetch(`/api/notes/`, {
+        fetch(`/api/notes/create/`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -32,7 +32,7 @@ const NotePage = ({ match, history }) => {
 
 
     let updateNote = async () => {
-        fetch(`/api/notes/${noteId}/`, {
+        fetch(`/api/notes/${noteId}/update/`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json'
@@ -43,7 +43,7 @@ const NotePage = ({ match, history }) => {
 
 
     let deleteNote = async () => {
-        fetch(`/api/notes/${noteId}/`, {
+        fetch(`/api/notes/${noteId}/delete/`, {
             method: 'DELETE',
             'headers': {
                 'Content-Type': 'application/json'
@@ -52,14 +52,17 @@ const NotePage = ({ match, history }) => {
         history.push('/')
     }
 
-    let handleSubmit = () => {
+    let handleSubmit = async () => {
         console.log('NOTE:', note)
         if (noteId !== 'new' && note.body === '') {
-            deleteNote()
+            await deleteNote()
+            await new Promise((resolve, reject) => setTimeout(resolve, 100));
         } else if (noteId !== 'new') {
-            updateNote()
+            await updateNote()
+            await new Promise((resolve, reject) => setTimeout(resolve, 100));
         } else if (noteId === 'new' && note.body !== null) {
-            createNote()
+            await createNote()
+            await new Promise((resolve, reject) => setTimeout(resolve, 100));
         }
         history.push('/')
     }
